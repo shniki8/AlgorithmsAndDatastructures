@@ -1,10 +1,10 @@
 package p6;
 
+
 public class Main {
     public static void main(String[] args) {
-    int[] test = {0,1,2,3,4,5,6,7,8,9};
-    int[] test2 = {0,1,2,3,4,5,6,7,8,9};
-
+    //int[] test = {0,1,2,3,4,5,6,7,8,9};
+    //int[] test2 = {0,1,2,3,4,5,6,7,8,9};
     //zirkulation(test, test.length-1);
     //zirkulationLsg(test2, test2.length-1);
     //System.out.println(compareArrays(test, test2));
@@ -12,9 +12,14 @@ public class Main {
     //printArray(test2);
     //int[] aktienVerlauf = {7,1,5,3,6,4};
     //System.out.println(aktienHandelBesser(aktienVerlauf));
-    int[] berg = {1,2,3,1,2,4,1,2};
-    System.out.println(findeIrgendeinenPeak(berg,0,berg.length-1));
-
+    //int[] berg = {1,2,3,1,2,4,1,2};
+    //System.out.println(findeIrgendeinenPeak(berg,0,berg.length-1));
+    //int[] summeOderSo = {2,7,11,19};
+    //System.out.println(summenRaetsel(summeOderSo,30));
+    //Tuple<Integer> t = new Tuple<>(1,69);
+    //System.out.println(t);
+        int[] werSuchetDerFindet = {5, 7, 7, 8, 8, 8, 10};
+        System.out.println(suchProblem(werSuchetDerFindet,0,werSuchetDerFindet.length-1,10));
     }
     public static int binSearch(int[] a,int p, int r, int x){ // ab index 0 jetzt aber
         int q = (int)(p + r)/2;
@@ -120,6 +125,61 @@ public class Main {
                 return findeIrgendeinenPeak(a, q+1, r);
             }
         }
-
     }
+    public static boolean summenRaetsel(int[] a, int x){
+        int left = 0,right = a.length-1;
+        int y;
+        for (int i = 0; i < a.length; i++) {
+            y = a[left] + a[right];
+            if (x == y) return true;
+            else if(y>x) right = right-1;
+            else left = left+1;
+        }
+        return  false;
+    }
+    public static Tuple<Integer> suchProblem(int[] a, int p, int r, int x){
+        int min = sucheLinks(a,p,r,x);
+        int max = sucheRechts(a,p,r,x);
+        return new Tuple<Integer>(min,max);
+    }
+    private static int sucheLinks(int[] a, int p, int r, int x) {
+        if (p > r) {
+            return -1;
+        }
+        int q = (p+r)/2;
+        if (a[q] == x) {
+            if (q == 0 || a[q-1] != x) {
+                return q;
+            } else {
+                return sucheLinks(a,p,q-1,x);
+            }
+        }
+        else if (a[q] > x) {
+            return sucheLinks(a,p,q-1,x);
+        }
+        else {
+            return sucheLinks(a,q+1,r,x);
+        }
+    }
+    private static int sucheRechts(int[] a, int p, int r, int x) {
+        if (p > r) return -1;
+
+        int q = (p + r) / 2;
+
+        if (a[q] == x) {
+            if (q == a.length - 1 || a[q + 1] != x) {
+                return q;
+            } else {
+                return sucheRechts(a, q + 1, r, x);
+            }
+        }
+        else if (a[q] > x) {
+            return sucheRechts(a, p, q - 1, x);
+        }
+        else {
+            return sucheRechts(a, q + 1, r, x);
+        }
+    }
+
+
 }
