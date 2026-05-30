@@ -245,4 +245,23 @@ public class Main {
         }
         return Arrays.copyOf(b, index + 1); // damit keine (0,0) elemente am Ende stehen
         }
+        public static int groessteTeilsummme(int[] a){
+        int max = -Integer.MAX_VALUE;
+        int sum = 0;
+        int l,r;
+            for (int i = 0; i < a.length; i++) {
+                for (int j = 0; j < a.length; j++) {
+                    sum = 0;
+                    for (int k = 0; k < a.length; k++) {
+                        sum += a[i];
+                        if (sum>max){
+                            max = sum;
+                            l = i;
+                            r = j;
+                        }
+                    }
+                }
+            }
+            return max; //eigentlich auch l und r, also der Bereich aber kb
+        }
     }
