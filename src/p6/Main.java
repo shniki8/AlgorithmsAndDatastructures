@@ -1,5 +1,7 @@
 package p6;
+import Master.Tuple;
 
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,8 +20,14 @@ public class Main {
     //System.out.println(summenRaetsel(summeOderSo,30));
     //Tuple<Integer> t = new Tuple<>(1,69);
     //System.out.println(t);
-        int[] werSuchetDerFindet = {5, 7, 7, 8, 8, 8, 10};
-        System.out.println(suchProblem(werSuchetDerFindet,0,werSuchetDerFindet.length-1,10));
+    //int[] werSuchetDerFindet = {5, 7, 7, 8, 8, 8, 10};
+    //System.out.println(suchProblem(werSuchetDerFindet,0,werSuchetDerFindet.length-1,10));
+    //int[] mehrheit = {2, 2, 1, 1, 1, 2, 2, 9, 9, 9};
+    //System.out.println(mehrheit(mehrheit));
+        int[][] t = {{1,3}, {2,6}, {3,5},{8,10},{15,18}};
+        t = termine(t);
+        System.out.println(Arrays.deepToString(t));
+
     }
     public static int binSearch(int[] a,int p, int r, int x){ // ab index 0 jetzt aber
         int q = (int)(p + r)/2;
@@ -164,22 +172,77 @@ public class Main {
     private static int sucheRechts(int[] a, int p, int r, int x) {
         if (p > r) return -1;
 
-        int q = (p + r) / 2;
+        int q = (p+r)/2;
 
         if (a[q] == x) {
-            if (q == a.length - 1 || a[q + 1] != x) {
+            if (q == a.length-1 || a[q+1] != x) {
                 return q;
             } else {
-                return sucheRechts(a, q + 1, r, x);
+                return sucheRechts(a,q+1,r,x);
             }
         }
         else if (a[q] > x) {
-            return sucheRechts(a, p, q - 1, x);
+            return sucheRechts(a,p,q-1,x);
         }
         else {
-            return sucheRechts(a, q + 1, r, x);
+            return sucheRechts(a,q+1,r,x);
         }
     }
 
+    public static int mehrheit(int[] a){
+        int number = a[0];
+        int count = 1;
+        if (a.length == 1) return a[0];
+        else{
+            for (int i = 0; i < a.length; i++) {
+                if (a[i] != number) count--;
+                else count++;
+                if (count == 0) {
+                    number = a[i];
+                    count = 1;
+                }
+            }
+        }
+        return number;
+    }
 
-}
+    public static int[][] termine(int[][] a ){
+        //DEAD CODE
+        /*
+        int[] firstNums = new int[a.length];
+        for (int i = 0; i < firstNums.length; i++) {
+            firstNums[i] = a[i][0];
+        }
+        Arrays.sort(firstNums);
+        int[][] b = new int[a.length][2];
+        int c = 0;
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a.length; j++) {
+                if (firstNums[i] == a[j][0])
+                    b[c] = a[j];
+                c++;
+            }
+
+            b[i] = a[i]; //Arrays.copyOf(a[i],2);
+            */
+        Arrays.sort(a, (b, c) -> Integer.compare(b[0], c[0]));
+        System.out.println(Arrays.deepToString(a));
+        int[][] b = new int[a.length][a[0].length];
+        b[0][0] = a[0][0];
+        b[0][1] = a[0][1];
+        int index = 0;
+        for (int i = 1; i < a.length; i++) {
+            if (b[index][1] >= a[i][0]){
+                if (b[index][1] < a[i][1] ){
+                    b[index][1] = a[i][1];
+                }
+            }
+            else {
+                index++;
+                b[index][0] = a[i][0];
+                b[index][1] = a[i][1];
+            }
+        }
+        return Arrays.copyOf(b, index + 1); // damit keine (0,0) elemente am Ende stehen
+        }
+    }

@@ -1,2 +1,3 @@
 In dieser Vorlesung wird leider davon ausgegangen, dass Arrays bei 1 starten anstatt 0... :(
 Nicht wundern, so dumm bin ich dann auch nicht.
+Hin und wieder mache beachte ich es, manchmal auch nicht!
